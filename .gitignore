@@ -1,40 +1,68 @@
-# dependencies
-/node_modules
-/.pnp
+# Dependencies
+node_modules/
+.pnp/
 .pnp.*
 .yarn/*
 !.yarn/patches
 !.yarn/plugins
 !.yarn/releases
+!.yarn/sdks
 !.yarn/versions
+.pnpm-store/
+jspm_packages/
 
-# testing
-/coverage
-
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# misc
-.DS_Store
-*.pem
-
-# debug
+# Logs
+logs/
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.pnpm-debug.log*
+pnpm-debug.log*
+lerna-debug.log*
 
-# env files
+# Environment variables / secrets
 .env
-.env*.local
+.env.*
+!.env.example
 
-# typescript
+# Next.js
+.next/
+out/
+
+# Production
+/build
+dist/
+
+# Vercel
+.vercel/
+
+# TypeScript
 *.tsbuildinfo
 next-env.d.ts
 
-# vercel
-.vercel
+# Testing / coverage
+coverage/
+.nyc_output/
+*.lcov
+
+# Caches
+.cache/
+.parcel-cache/
+.eslintcache
+.stylelintcache
+.npm/
+
+# OS files
+.DS_Store
+*.pem
+
+# Editor / IDE
+.vscode-test/
+
+# Miscellaneous build/tooling
+*.tgz
+.grunt/
+bower_components/
+web_modules/
+.temp/
+.svelte-kit/
