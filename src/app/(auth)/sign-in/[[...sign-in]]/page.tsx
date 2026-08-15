@@ -1,0 +1,19 @@
+import { SignIn } from "@clerk/nextjs";
+
+import { clerkAppearance } from "@/lib/clerk/appearance";
+
+export const metadata = {
+  title: "Sign In",
+};
+
+export default function SignInPage() {
+  return (
+    <SignIn
+      appearance={clerkAppearance}
+      routing="path"
+      path="/sign-in"
+      signUpUrl="/sign-up"
+      fallbackRedirectUrl="/trips"
+    />
+  );
+}
