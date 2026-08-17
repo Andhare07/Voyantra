@@ -1,8 +1,61 @@
 import { GoogleGenAI } from "@google/genai";
 import { AppError } from "@/lib/utils/errors";
 
-const DEFAULT_MODEL = "gemini-2.5-flash";
+const DEFAULT_MODEL = "gemini-3.5-flash";
 const DEFAULT_TIMEOUT_MS = 45000;
+
+function formatGeminiError(error: unknown, model: string): string {
+  if (!error) {
+    return `AI generation failed on model '${model}'.`;
+  }
+
+  let rawMessage = error instanceof Error ? error.message : String(error);
+
+  // Redact potential API keys or sensitive query tokens
+  rawMessage = rawMessage.replace(/key=[^&\s"']+/gi, "key=[REDACTED]");
+  rawMessage = rawMessage.replace(/AIza[a-zA-Z0-9_-]{35}/g, "[REDACTED_API_KEY]");
+
+  // Attempt to parse nested Google ApiError JSON if present
+  try {
+    const jsonStart = rawMessage.indexOf("{");
+    const jsonEnd = rawMessage.lastIndexOf("}");
+    if (jsonStart !== -1 && jsonEnd !== -1 && jsonEnd > jsonStart) {
+      const parsed = JSON.parse(rawMessage.slice(jsonStart, jsonEnd + 1)) as {
+        error?: {
+          code?: number;
+          message?: string;
+          status?: string;
+          details?: Array<{ reason?: string; message?: string }>;
+        };
+      };
+
+      if (parsed?.error) {
+        const { code, message, status } = parsed.error;
+        const cleanMsg = (message || "Provider error").replace(
+          /key=[^&\s"']+/gi,
+          "key=[REDACTED]"
+        );
+        const parts = [
+          code ? `[HTTP ${code}]` : null,
+          status ? `(${status})` : null,
+          cleanMsg,
+        ].filter(Boolean);
+
+        return `Gemini API error (${model}): ${parts.join(" ")}`;
+      }
+    }
+  } catch {
+    // Fall back to direct error properties
+  }
+
+  // Handle ApiError status if available
+  if (typeof error === "object" && error !== null && "status" in error) {
+    const status = (error as { status?: number | string }).status;
+    return `Gemini API error (${model}) [Status ${status}]: ${rawMessage}`;
+  }
+
+  return `Gemini API error (${model}): ${rawMessage}`;
+}
 
 export class GeminiClient {
   private ai: GoogleGenAI | null = null;
@@ -72,10 +125,9 @@ export class GeminiClient {
         );
       }
 
-      console.error("[GeminiClient] Generation API call failed:", error instanceof Error ? error.message : "Unknown error");
-      throw AppError.generationFailed(
-        "Failed to generate itinerary with AI provider."
-      );
+      const formattedError = formatGeminiError(error, this.model);
+      console.error("[GeminiClient] Generation API call failed:", formattedError);
+      throw AppError.generationFailed(formattedError);
     }
   }
 
@@ -123,9 +175,10 @@ ${brokenJson.slice(0, 4000)}`;
 
       return text;
     } catch (err) {
-      console.error("[GeminiClient] JSON repair attempt failed:", err instanceof Error ? err.message : "Unknown error");
+      const formattedError = formatGeminiError(err, this.model);
+      console.error("[GeminiClient] JSON repair attempt failed:", formattedError);
       throw AppError.generationFailed(
-        "Failed to parse and repair AI itinerary structure."
+        `Failed to parse and repair AI itinerary structure (${formattedError})`
       );
     }
   }
