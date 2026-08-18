@@ -87,6 +87,7 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
+    overflow-x: hidden;
   }
 
   h1,
@@ -99,15 +100,15 @@
   }
 
   h1 {
-    @apply text-4xl md:text-5xl;
+    @apply text-3xl sm:text-4xl md:text-5xl;
   }
 
   h2 {
-    @apply text-3xl md:text-4xl;
+    @apply text-2xl sm:text-3xl md:text-4xl;
   }
 
   h3 {
-    @apply text-2xl;
+    @apply text-xl sm:text-2xl;
   }
 }
 
@@ -117,7 +118,7 @@
   }
 
   .aurora-background {
-    @apply relative overflow-hidden bg-cloud;
+    @apply relative overflow-hidden bg-cloud min-h-screen w-full;
   }
 
   .aurora-background::before {
@@ -166,11 +167,19 @@
   }
 
   .page-container {
-    @apply mx-auto w-full max-w-6xl px-page py-8 md:py-12;
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 md:px-page py-6 md:py-12;
   }
 
   .text-balance {
     text-wrap: balance;
+  }
+
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
   }
 }
 

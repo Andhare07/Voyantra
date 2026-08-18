@@ -147,15 +147,15 @@ export default function NewTripPage() {
 
       {/* Loading Overlay / Progress state */}
       {isLoading && (
-        <GlassCard className="p-8 text-center space-y-4 animate-pulse">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-ocean/10 text-ocean">
-            <Loader2 className="h-7 w-7 animate-spin" />
+        <GlassCard className="p-5 sm:p-8 text-center space-y-4 animate-pulse">
+          <div className="mx-auto flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-2xl bg-ocean/10 text-ocean">
+            <Loader2 className="h-6 w-6 sm:h-7 sm:w-7 animate-spin" />
           </div>
           <div className="space-y-1">
-            <h3 className="text-xl font-bold text-foreground">
+            <h3 className="text-lg sm:text-xl font-bold text-foreground">
               Synthesizing Your Custom Itinerary
             </h3>
-            <p className="text-sm text-muted-foreground max-w-md mx-auto">
+            <p className="text-xs sm:text-sm text-muted-foreground max-w-md mx-auto">
               Our AI engine is balancing activities, dining, and hotel recommendations to match your target budget.
             </p>
           </div>

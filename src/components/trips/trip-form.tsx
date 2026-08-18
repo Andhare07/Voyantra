@@ -132,21 +132,21 @@ export function TripForm({ onSubmit, isLoading, initialValues }: TripFormProps) 
   };
 
   return (
-    <GlassCard className="p-6 md:p-8">
-      <form onSubmit={handleSubmit} className="space-y-8">
+    <GlassCard className="p-4 sm:p-6 md:p-8">
+      <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
         {/* Header / Quota note */}
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h2 className="text-2xl font-bold tracking-tight text-foreground">
+            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
               Plan Your Voyage
             </h2>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
               Specify your destination, budget, and travel preferences.
             </p>
           </div>
           {quota && (
-            <div className="inline-flex items-center gap-1.5 rounded-full border border-mist/30 bg-surface px-3 py-1 text-xs text-muted-foreground">
-              <Info className="h-3.5 w-3.5 text-ocean" />
+            <div className="inline-flex self-start sm:self-auto items-center gap-1.5 rounded-full border border-mist/30 bg-surface px-3 py-1 text-xs text-muted-foreground">
+              <Info className="h-3.5 w-3.5 text-ocean shrink-0" />
               <span>
                 {quota.remaining} of {quota.limit} AI generations remaining today
               </span>
@@ -160,7 +160,7 @@ export function TripForm({ onSubmit, isLoading, initialValues }: TripFormProps) 
             htmlFor="destination"
             className="flex items-center gap-2 text-sm font-semibold text-foreground"
           >
-            <MapPin className="h-4 w-4 text-ocean" />
+            <MapPin className="h-4 w-4 text-ocean shrink-0" />
             Where would you like to go?
           </label>
           <div className="relative">
@@ -176,7 +176,7 @@ export function TripForm({ onSubmit, isLoading, initialValues }: TripFormProps) 
               }}
               placeholder="e.g. Paris, France or Kyoto, Japan"
               disabled={isLoading}
-              className={`w-full rounded-xl border bg-white/90 px-4 py-3 text-base text-foreground placeholder:text-slate/60 shadow-sm focus:outline-none focus:ring-2 focus:ring-mist ${
+              className={`w-full rounded-xl border bg-white/90 px-3.5 sm:px-4 py-3 text-base text-foreground placeholder:text-slate/60 shadow-sm focus:outline-none focus:ring-2 focus:ring-mist ${
                 fieldErrors.destination
                   ? "border-destructive focus:ring-destructive"
                   : "border-border"
@@ -185,7 +185,7 @@ export function TripForm({ onSubmit, isLoading, initialValues }: TripFormProps) 
           </div>
           {fieldErrors.destination && (
             <p className="flex items-center gap-1 text-xs text-destructive">
-              <AlertCircle className="h-3.5 w-3.5" />
+              <AlertCircle className="h-3.5 w-3.5 shrink-0" />
               {fieldErrors.destination}
             </p>
           )}
@@ -199,11 +199,11 @@ export function TripForm({ onSubmit, isLoading, initialValues }: TripFormProps) 
               htmlFor="budgetUsd"
               className="flex items-center gap-2 text-sm font-semibold text-foreground"
             >
-              <DollarSign className="h-4 w-4 text-ocean" />
+              <DollarSign className="h-4 w-4 text-ocean shrink-0" />
               Total Planned Budget (USD)
             </label>
             <div className="relative">
-              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground">
+              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground font-medium">
                 $
               </span>
               <input
@@ -230,7 +230,7 @@ export function TripForm({ onSubmit, isLoading, initialValues }: TripFormProps) 
             </div>
             {fieldErrors.budgetUsd && (
               <p className="flex items-center gap-1 text-xs text-destructive">
-                <AlertCircle className="h-3.5 w-3.5" />
+                <AlertCircle className="h-3.5 w-3.5 shrink-0" />
                 {fieldErrors.budgetUsd}
               </p>
             )}
@@ -239,7 +239,7 @@ export function TripForm({ onSubmit, isLoading, initialValues }: TripFormProps) 
           {/* Duration in Days */}
           <div className="space-y-2">
             <label className="flex items-center gap-2 text-sm font-semibold text-foreground">
-              <Calendar className="h-4 w-4 text-ocean" />
+              <Calendar className="h-4 w-4 text-ocean shrink-0" />
               Trip Length ({days} {days === 1 ? "day" : "days"})
             </label>
             <div className="flex items-center justify-between gap-1 sm:gap-2">
@@ -251,7 +251,7 @@ export function TripForm({ onSubmit, isLoading, initialValues }: TripFormProps) 
                     type="button"
                     onClick={() => setDays(num)}
                     disabled={isLoading}
-                    className={`flex-1 rounded-xl py-2.5 text-sm font-semibold transition-all ${
+                    className={`flex-1 rounded-xl py-2.5 px-0.5 sm:px-2 text-xs sm:text-sm font-semibold transition-all ${
                       isSelected
                         ? "bg-ocean text-white shadow-md scale-[1.02]"
                         : "bg-surface border border-border text-muted-foreground hover:bg-white hover:text-foreground"
@@ -268,10 +268,10 @@ export function TripForm({ onSubmit, isLoading, initialValues }: TripFormProps) 
         {/* 3. Travel Style Selector */}
         <div className="space-y-3">
           <label className="flex items-center gap-2 text-sm font-semibold text-foreground">
-            <Compass className="h-4 w-4 text-ocean" />
+            <Compass className="h-4 w-4 text-ocean shrink-0" />
             Select Your Travel Style
           </label>
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {TRAVEL_STYLES.map((style) => {
               const info = STYLE_DETAILS[style];
               const Icon = info.icon;
@@ -283,7 +283,7 @@ export function TripForm({ onSubmit, isLoading, initialValues }: TripFormProps) 
                   type="button"
                   onClick={() => setTravelStyle(style)}
                   disabled={isLoading}
-                  className={`flex flex-col items-start gap-1 rounded-2xl border p-3.5 text-left transition-all ${
+                  className={`flex flex-col items-start gap-1 rounded-2xl border p-3.5 sm:p-4 text-left transition-all ${
                     isSelected
                       ? "border-ocean bg-ocean/5 shadow-sm ring-1 ring-ocean"
                       : "border-border bg-white/70 hover:bg-white hover:border-mist"
@@ -298,7 +298,7 @@ export function TripForm({ onSubmit, isLoading, initialValues }: TripFormProps) 
                       {info.label}
                     </span>
                     <Icon
-                      className={`h-4 w-4 ${
+                      className={`h-4 w-4 shrink-0 ${
                         isSelected ? "text-ocean" : "text-slate"
                       }`}
                     />
@@ -331,7 +331,7 @@ export function TripForm({ onSubmit, isLoading, initialValues }: TripFormProps) 
                   type="button"
                   onClick={() => toggleInterest(tag)}
                   disabled={isLoading || (!isSelected && interests.length >= 5)}
-                  className={`rounded-xl border px-3.5 py-1.5 text-xs font-medium transition-all ${
+                  className={`rounded-xl border px-3.5 py-2 sm:py-1.5 text-xs font-medium min-h-[36px] sm:min-h-0 flex items-center justify-center transition-all ${
                     isSelected
                       ? "border-ocean bg-ocean text-white shadow-sm"
                       : "border-border bg-white text-muted-foreground hover:border-mist hover:text-foreground disabled:opacity-40"
@@ -351,7 +351,7 @@ export function TripForm({ onSubmit, isLoading, initialValues }: TripFormProps) 
             variant="accent"
             size="lg"
             disabled={isLoading || (quota ? quota.remaining <= 0 : false)}
-            className="w-full text-base font-semibold shadow-[var(--shadow-soft)]"
+            className="w-full min-h-[48px] text-base font-semibold shadow-[var(--shadow-soft)]"
           >
             {isLoading ? (
               <>
